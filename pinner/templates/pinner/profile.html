@@ -1,0 +1,60 @@
+{% extends "pinner/layout.html" %}
+
+{% block body %}
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F3F3F4;">
+        <a href="{% url 'home' %}" id="home" style="color:black"  class="name navbar-brand">Pinner</a>
+    
+      </nav>
+    
+      
+       
+        {% if profile %}
+      <div class="container">
+        <div class="row">
+         
+          <div class="col-lg-6">
+            <h3 class="mb-5 mt-3" style="text-transform: capitalize;">{{profile.user.username}}, {{profile.birth}} 
+              {% if profile.active %}
+              <span style="font-size: 8px;">🟢</span>
+              {% endif %}
+            </h1>
+            <img src="{{profile.image.url}}" alt="..." class="rounded img-fluid img-thumbnail imagestyle1" >
+          </div>
+          <div class="col-lg-6" style="padding-top: 110px;" >     
+            <h3>IN A FEW WORDS…</h3>
+            <p>
+              <div class="pstyle">
+                👫 {{profile.user_gender}}
+              </div>
+              <div   class="pstyle">
+                👨 {{profile.height}}cm
+              </div>
+              <div  class="pstyle">
+                🔎 {{profile.interest}}
+              </div>
+              <div  class="pstyle">
+                🔥 {% for i in profile.passions.all %}
+                <span>
+                  {{i.name}}
+                </span>
+                {% endfor %}
+              </div>
+            </p> 
+     
+          </div>
+           
+     
+       
+      </div>
+    
+      </div>
+      {% endif %}
+     
+</div>
+ 
+  
+
+
+  {% endblock %}

@@ -1,0 +1,456 @@
+{% extends "pinner/layout.html" %}
+
+{% block body %}
+
+
+<div id="location"></div>
+
+
+<div class="container">
+<div id="index">
+ 
+   
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F3F3F4;">
+  <a class="name navbar-brand" href="{% url 'home' %}" >Pinner</a>
+      <ul class="nav ml-auto">
+    
+        <li class="nav-item ">
+          <i class="bi bi-people-fill ma"  id="message"></i>
+          <span class="badge badge-danger">{{count}}</span>
+        </li>
+        <input type="hidden" id="profileid" value="{{profile.id}}" >
+        <li class="nav-item ml-5">
+ 
+          <img src="{{profile.image.url}}" id="profile" class="nav-link" style="cursor: pointer;width: 75px;height:60px;border-radius: 50%;">
+       
+        </li>
+       
+      </ul>
+</nav>
+
+
+ <div class="container " id="ma">
+  {% for post in posts %}
+  {% if not post.user == request.user %}
+  {% if not request.user in post.unliked.all %}
+  <div class="row post" id="post">
+
+      <div class="col-lg-6 text-center">
+        <div id="a" value="{{post.id}}" style="display: none;"></div>  
+          <img src="{{post.image.url}}" class="rounded img-fluid img-thumbnail imagestyle" >
+       
+     
+      
+      </div>
+  
+        <div class="col-lg-6" style="padding-top: 100px;" >     
+
+          <h3>{{post.user.username}}, {{post.birth}}
+          {% if post.active %}
+          <span style="font-size: 8px;">🟢</span>
+          {% endif %}  
+          </h3>
+       
+          <p>
+            <div class="pstyle">
+              👫 {{post.user_gender}}
+            </div>
+            <div   class="pstyle">
+              👨 {{post.height}}cm
+            </div>
+            <div  class="pstyle">
+              🔎 {{post.interest}}
+            </div>
+            <div  class="pstyle">
+              🔥 {% for i in post.passions.all %}
+              <span>
+                {{i.name}}
+              </span>
+              {% endfor %}
+            </div>
+          </p> 
+   
+          <input type="hidden" id="x" value="{{post.id}}">
+          <p style="margin-bottom: 50px;" class="text-center">
+            <button id="nope{{post.id}}" class="likebtn" ><i class="bi bi-x-lg"></i></button>
+            <button id="like{{post.id}}" class="likebtn ml-5" ><i class="bi bi-heart-fill"></i></button>
+          </p> 
+      
+      
+        </div>
+
+  
+   
+   
+</div>
+
+{% endif %}
+{% endif %}
+
+{% empty %}
+<h1>
+  no post here
+</h1>
+
+{% endfor %}
+
+
+
+ </div>
+
+   
+
+</div>
+
+
+<!-- view profile -->
+
+<div id="pp" class="pp">
+  <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F3F3F4;">
+    <a id="home" style="color:black;cursor: pointer;"  class="name navbar-brand">Pinner</a>
+        <ul class="nav ml-auto">
+      
+          <li class="nav-item ">
+            <i class="bi bi-people-fill ma"  id="pmessage"></i>
+            <span class="badge badge-danger">{{count}}</span>
+          </li>
+          <input type="hidden" id="profileid" value="{{profile.id}}" >
+          <li class="nav-item ml-5">
+   
+            <img src="{{profile.image.url}}" id="profile" class="nav-link" style="cursor: pointer;width: 75px;height:60px;border-radius: 50%;">
+         
+          </li>
+         
+        </ul>
+  </nav>
+
+  
+   
+    {% if profile %}
+  <div class="container">
+    <div class="row">
+     
+      <div class="col-lg-6">
+        <h3 class="mb-5 mt-3" style="text-transform: capitalize;">{{profile.user.username}}, {{profile.birth}} <span style="font-size: 8px;">🟢</span></h1>
+        <img src="{{profile.image.url}}" alt="..." class="rounded img-fluid img-thumbnail imagestyle1" >
+      </div>
+      <div class="col-lg-6" style="padding-top: 110px;" >     
+        <h3>IN A FEW WORDS…</h3>
+        <p>
+          <div class="pstyle">
+            👫 {{profile.user_gender}}
+          </div>
+          <div   class="pstyle">
+            👨 {{profile.height}}cm
+          </div>
+          <div  class="pstyle">
+            🔎 {{profile.interest}}
+          </div>
+          <div  class="pstyle">
+            🔥 {% for i in profile.passions.all %}
+            <span>
+              {{i.name}}
+            </span>
+            {% endfor %}
+          </div>
+        </p> 
+        <p>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" style="background-color: black;border: none;">
+            <i class="bi bi-pencil-square"></i> Edit Profile
+          </button>
+        </p>    
+        <p style="margin-bottom: 50px;">
+          <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'delete' profile.user.id %}" class="ml-5" style="color:red">Delete account</a>
+        </p> 
+      </div>
+       
+ 
+   
+  </div>
+
+  </div>
+ 
+</div>
+
+
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+        <form action="{% url 'edit' profile.id %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Age</label>
+            <input type="number" class="form-control" id="birth" value="{{profile.birth}}" name="birth">
+          </div>
+          <div class="mb-3">
+            <label class="col-form-label">Gender:</label>
+            {% if profile.user_gender == male %}
+            <label>male</label>
+            <input type="radio" name="gender" value="male" checked>
+            <label>female</label>
+            <input type="radio" name="gender" value="female">
+            <label>other</label>
+            <input type="radio" name="gender" value="other">
+            {% elif profile.user_gender == female   %}
+            <label>male</label>
+            <input type="radio" name="gender" value="male" >
+            <label>female</label>
+            <input type="radio" name="gender" value="female" checked>
+            <label>other</label>
+            <input type="radio" name="gender" value="other">
+            {% else %}
+            <label>male</label>
+            <input type="radio" name="gender" value="male" >
+            <label>female</label>
+            <input type="radio" name="gender" value="female" >
+            <label>other</label>
+            <input type="radio" name="gender" value="other" checked>
+            {% endif %}
+          </div>
+          <div class="mb-3">
+            <label>Like gender</label>
+              <select class="form-control" aria-label="Default select example" name="like_gender">              
+                  <option value="male">male</option>
+                  <option value="female">female</option>
+                  <option value="both">both</option>
+                </select>
+            </div>
+            <div class="mb-3">
+              <label>Interest</label>
+              <select class="form-control" aria-label="Default select example" name="interest">               
+                  <option value="relationships" selected>relationships</option>
+                  <option value="nothing else" >nothing else</option>                 
+                </select>
+            </div>
+            <div class="mb-3">
+              <label>height</label>
+              <input type="number" name="height" class="form-control" value="{{profile.height}}">
+            </div>
+            <div class="mb-3">
+              <label>Passions</label>
+              <select class="form-control" multiple aria-label="multiple select example" name="passion">
+                  {% for p in passions %}
+                  {% if p in profile.passions.all %}
+                  <option value="{{p.id}}" selected >{{p.name}}</option> 
+                  {% else %}    
+                  <option value="{{p.id}}"  >{{p.name}}</option> 
+                  {% endif %}
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">        
+                <label><a href="{{profile.image.url}}">{{profile.image}}</a></label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="customFile"  name="image" value="{{profile.image.url}}">
+                  <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+             
+              
+            
+          
+            </div>    
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" style="background-color: black;border: none;">Save changes</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+   
+      
+
+    {% endif %}
+
+<div class="message" id="main_message">
+    
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F3F3F4;">
+      <a id="home" class="name navbar-brand" href="" >Pinner</a>
+          <ul class="nav ml-auto">
+        
+            <li class="nav-item ">
+              <i class="bi bi-people-fill ma"  id="message">
+               
+
+              </i>
+              <span class="badge badge-danger">{{count}}</span>
+    
+            </li>
+            <input type="hidden" id="profileid" value="{{profile.id}}" >
+            <li class="nav-item ml-5">
+     
+              <img src="{{profile.image.url}}" id="pprofile" class="nav-link" style="cursor: pointer;width: 75px;height:60px;border-radius: 50%;">
+           
+            </li>
+           
+          </ul>
+    </nav>
+
+<div class="container">
+
+  <h3 class="mt-3 mb-5" >Matches</h1>
+
+  
+  <div class="row">
+    {% for i in matches %}
+    <div class="col-md-3 ">
+      <p class="text-center">
+
+        <img src="{{i.image.url}}" class="card-image matchimg text-center"  data-toggle="modal" data-target="#staticBackdrop{{i.id}}">
+        <h4 class="text-center">{{i.user.username}}
+          {% if i.active %}
+          <span style="font-size: 8px;">🟢</span>
+          {% endif %}
+        </h4>
+      </p>
+      <div class="modal fade" id="staticBackdrop{{i.id}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                <img src="{{i.image.url}}" style="cursor: pointer;width: 50px;height:50px;border-radius: 50%;" >
+                <b>{{i.user.username}}</b>{% if i.active %}
+                <span style="font-size: 8px;">🟢</span>
+                {% endif %} </h5>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false" style="color: black;">
+                  <i class="bi bi-filter-right" style="font-size: 26px;color: black;"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'pp' i.id %}">View profile</a>
+                  <a class="dropdown-item" href="#" id="unmatch{{i.id}}" >Unmatch</a>
+                </div>             
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+    
+                <div class="col-lg-12">
+                  
+                  {% for b in mm  %} 
+                 
+              
+
+                  {% if i == b.sender and profile == b.receiver %}
+                  <p>
+                   <img src="{{ b.sender.image.url}}" style="cursor: pointer;width: 50px;height:50px;border-radius: 50%;"  > 
+                   {{b.message}}
+                  <br>
+                  <span class="text-muted" style="font-size: 11px;">{{b.timestamp|timesince }}</span>
+                  
+                
+
+                  </p>      
+                {% endif %}
+            
+                <input type="hidden" id="user" value="{{profile.user.username}}">
+                  
+    
+                <p style="text-align: right;">
+                  {% if i == b.receiver and profile == b.sender  %}
+               {{b.message}}
+               <br>
+               <span class="text-muted" style="font-size: 11px;">{{b.timestamp|timesince }}</span>
+                 </p>
+             
+                 {% endif %}
+                 
+               
+                <p id="sender{{i.id}}"  style="text-align: right;">
+             
+              </p>     
+              
+                
+              {% endfor %}  
+             
+         
+           
+          
+             
+           
+                 
+
+
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+            <div class="modal-footer">
+            
+              <form class="form-inline">
+                {% csrf_token %}
+              
+                <div class="form-group">
+                  <input type="hidden" value="{{i.id}}" id="hiddenvalue">
+                  <input type="text" id="textmessage{{i.id}}" class="form-control">
+               
+                </div>
+         
+           
+                  <button type="button" id="s{{i.id}}" class="btn btn-primary ml-3" style="background-color: black; border: none;" >
+                    <i class="bi bi-send-fill"></i>
+                    </button>
+              
+             
+
+              
+              </form>
+           
+            
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    {% endfor %}
+  </div>
+
+  
+
+
+
+
+  
+
+
+  
+</div>
+  
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

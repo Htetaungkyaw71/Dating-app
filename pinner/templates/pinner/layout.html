@@ -1,0 +1,365 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pinner{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+
+    <style>
+      *{
+        font-family: Roboto, sans-serif;
+      
+      }
+      body{
+        background-color: #F3F3F4;
+      }
+.pp{
+    display: none;
+}
+
+.c{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+.c .container{
+  width: 380px;
+}
+.cc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+}
+.cc .container{
+  width: 380px;
+}
+.form-control:focus{
+ border-color: black;
+  box-shadow: none;
+
+}
+.form-control:active{
+  border-color: black;
+  box-shadow: none;
+}
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.form-control{
+  border-color: black;
+}
+.sbtn{
+  background-color: #E1578A;
+  border-color: #E1578A;
+}
+.sbtn:active{
+  background-color: #E1578A;
+}
+.sbtn:hover{
+  background-color: #f088ae;
+  border-color: #f088ae;
+}
+.r:hover{
+  color: #E1578A!important;
+}
+
+.gender{
+  background-color: #fff;
+text-align: center;
+  width: 400px;
+  border-radius: 20px;
+  padding: 50px;
+margin-top: 60px;
+}
+.create{
+  background-color: #F3F3F4;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.main_card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+ 
+}
+.pstyle{
+  border:  1px solid black;
+  border-radius: 100px;
+  padding: 10px;
+ margin-top: 10px;
+}
+.name{
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+}
+.imagestyle{
+  width: 500px;
+  height: 380px;
+  margin-top: 50px;
+}
+.imagestyle1{
+  width: 500px;
+  height: 380px;
+ 
+}
+@keyframes hide {
+    0%{
+      opacity: 1;
+   
+    }
+    100%{
+      opacity: 0;
+    }
+}
+.post{
+  display: none;
+  animation: hide;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+.message{
+  display: none;
+}
+.likebtn{
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 20px;
+color: black;
+box-shadow: 1px 1px 1px 1px rgb(226, 226, 226);
+  border:none;
+  transition: 0.5s;
+}
+.likebtn:hover{
+  background-color: black;
+  color:white;
+}
+.ma{
+  font-size: 40px;
+  cursor: pointer;
+  color: black;
+}
+.matchimg{
+  width: 180px;
+  height: 180px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.matchimg:hover{
+  margin-top: -5px;
+  margin-bottom: 5px;
+  box-shadow: 2px 2px  rgb(219, 213, 213);
+}
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+        {% block body %}
+        {% endblock %}
+    
+
+    <script>
+       
+
+  // location
+
+    var div  = document.getElementById("location");
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          document.querySelector("#location").innerHTML = "The Browser Does not Support Geolocation";
+          document.querySelector("#location").className = "alert alert-warning"
+        }
+     
+     
+        }
+
+
+
+
+      function showPosition(position) {
+        let l = position.coords.latitude
+          let loc = document.querySelector("#profileid").value;  
+           let id = parseInt(loc) 
+
+            fetch(`/location/${id}`, {
+            credentials: 'include', 
+                method: "PUT",
+                headers: {'Content-Type': 'application/json', },
+                body: JSON.stringify({
+                    location: l
+                })
+              }) 
+      }
+
+      function showError(error) {
+        if(error.PERMISSION_DENIED){
+            document.querySelector("#location").innerHTML = "The User have denied the request for Geolocation.You need to add your Geolocation";
+            document.querySelector("#location").className = "alert alert-warning"
+
+    getLocation();
+        }
+      }
+  
+
+
+
+      
+
+
+
+  // location
+
+
+  document.addEventListener("DOMContentLoaded",function(){
+    document.querySelector("#pp").style.display = "none"
+    document.querySelector(".message").style.display = "none"
+    document.querySelector("#profile").onclick = function(){
+        document.querySelector("#index").style.display = "none";
+        document.querySelector(".message").style.display = "none";
+        document.querySelector("#pp").style.display = "block";
+    }
+    document.querySelector("#home").onclick = function(){ 
+      document.querySelector(".message").style.display = "none";
+      document.querySelector("#pp").style.display = "none";
+      document.querySelector("#index").style.display = "block";
+       
+        
+    
+    }
+    document.querySelector("#message").onclick = function(){   
+      document.querySelector("#index").style.display = "none";
+      document.querySelector("#pp").style.display = "none";
+      document.querySelector(".message").style.display = "block";  
+        
+    }
+    document.querySelector("#pmessage").onclick = function(){ 
+      document.querySelector("#pp").style.display = "none";  
+      document.querySelector("#index").style.display = "none";   
+      document.querySelector(".message").style.display = "block";      
+    }
+    document.querySelector("#pprofile").onclick = function(){ 
+      document.querySelector("#pp").style.display = "block";  
+      document.querySelector("#index").style.display = "none";   
+      document.querySelector(".message").style.display = "none";      
+    }
+    // message
+    document.querySelectorAll("#hiddenvalue").forEach(input=>{
+      let profile_id  = input.value;
+      document.querySelectorAll(`#s${profile_id}`).forEach(button=>{
+      button.onclick = function(){
+        document.querySelectorAll(`#textmessage${profile_id}`).forEach(input=>{
+          let text = input.value;
+          let d = document.createElement('p')
+          d.innerHTML = text
+          document.querySelectorAll(`#sender${profile_id}`).forEach(p=>{
+            p.append(d)
+          })
+          fetch(`message/${profile_id}/${text}`)
+ 
+        })     
+      }
+    })
+    document.querySelectorAll(`#unmatch${profile_id}`).forEach(button=>{
+      button.onclick = function(){
+        fetch(`unmatch/${profile_id}`)
+        location.reload()
+      }
+    })
+
+
+    })
+  
+      
+    
+
+
+
+
+    // message
+
+    // like
+
+    
+    let counter = 0
+    let posts = []
+    let like_id = document.querySelector("#x").value;
+    document.querySelectorAll("#post").forEach(div=>{
+      posts.push(div)  
+    
+      posts[counter].style.display = "flex";
+     
+      document.querySelectorAll(`#like${like_id}`).forEach(button=>{
+        
+        button.onclick = function(){
+          fetch(`like/${like_id}`)  
+          counter++;
+          posts[counter-1].style.animationPlayState = 'running';
+          posts[counter-1].addEventListener('animationend', ()=>{
+          posts[counter-1].style.display = "none";
+          posts[counter].style.display = "flex";
+          location.reload() 
+        
+          })   
+        }
+      })
+
+      document.querySelectorAll(`#nope${like_id}`).forEach(button=>{
+        button.onclick = function(){
+          fetch(`nope/${like_id}`)
+          counter++;
+          posts[counter-1].style.animationPlayState = 'running';
+          posts[counter-1].addEventListener('animationend', ()=>{
+          posts[counter-1].style.display = "none";
+          posts[counter].style.display = "flex"; 
+          location.reload() 
+          })
+       
+        }
+      })
+
+
+ 
+    })
+    // like
+
+  
+
+
+    
+    
+
+    
+    
+})
+
+
+getLocation();
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+</body>
+</html>

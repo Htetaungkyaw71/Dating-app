@@ -1,0 +1,29 @@
+{% extends "pinner/layout.html" %}
+
+{% block body %}
+<div class="c">
+  <div class="container ">
+    <h1 class="text-center">Log In</h1>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label  class="form-label" >Username</label>
+          <input type="text" class="form-control"  name="username">    
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label" >Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+        </div>
+       
+        <button type="submit" class="btn btn-primary" style="background-color: black;border: none;">Submit</button> 
+      </form>
+      <div class="form-text mt-3">You don't have already account.Please <a href="{% url 'register' %}" style="color: black;font-weight: bold;">register</a></div>
+</div>
+</div>
+
+
+
+{% endblock %}
