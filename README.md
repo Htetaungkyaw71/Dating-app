@@ -75,11 +75,18 @@ profile.html -
 For other users profile page.
 
 admin.py - here I added some admin register sites Passion, Profile, SendMessage, User.
+
 decorators.py - I added one function for permission.
+
 tests.py - I added three functions for testing
-models.py contains three models I used in the project. Profile model is for user account profile, Passions. model is for Profile, and SendMessage model represents users messages.
+
+models.py contains three models I used in the project. Profile model is for user account profile, 
+Passions. model is for Profile, and SendMessage model represents users messages.
+
 urls.py - all application URLs.
+
 views.py respectively, contains all application views.
+
 media - this directory contains all users profile photos.
 
 SuperUser
