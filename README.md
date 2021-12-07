@@ -1,10 +1,10 @@
-#Final Project
+# Final Project
 
 CS50 Web Programming with Python and JavaScript
 
 
 
-#Distinctiveness and Complexity
+# Distinctiveness and Complexity
 
 I believe this project satisfies the distinctiveness and complexity requirements as I have used chat system,javascript geolocation and match concept is distinct from previous projects.this project is not based on old CS50W Pizza project because this project is not online order system and this project is not include Menu, Adding Items, Shopping Cart and others.
 
@@ -19,12 +19,12 @@ All webpages of the project are mobile-responsive.
 Furthermore, the general concept and UI has not been based on any previous projects and thus is unique.
 
 
-#Introduction
+# Introduction
 
 My final project is  Dating app. Users are able to create account,uploading photo, "like" other users' or "unlike other users'.if users like each other,it becomes match and then users can message each other.If users access their locations,users can see near 50miles other users on their newfeed.users can also edit and delete their accounts.    
 
 
-#Tools and Languages
+# Tools and Languages
 
 HTML
 CSS
@@ -34,7 +34,7 @@ Javascript
 Bootstrap Icon
 
 
-#Installation
+# Installation
 
 pip install requirements.txt.
 
@@ -49,7 +49,7 @@ python manage.py runserver
 Create superuser with python manage.py createsuperuser. This step is optional.
 
 
-#Files and directories
+# Files and directories
 
 pinner - main application directory.
 templates/pinner/layout.html contains all static content.
