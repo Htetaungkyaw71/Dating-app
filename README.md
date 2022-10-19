@@ -1,6 +1,6 @@
 # Final Project
 
-CS50 Web Programming with Python and JavaScript
+> CS50 Web Programming with Python and JavaScript
 
 
 
@@ -26,27 +26,27 @@ My final project is  Dating app. Users are able to create account,uploading phot
 
 # Tools and Languages
 
-HTML
-CSS
-Bootstrap
-Python Django
-Javascript
-Bootstrap Icon
+- HTML
+- CSS
+- Bootstrap
+- Python Django
+- Javascript
+- Bootstrap Icon
 
 
 # Installation
 
-pip install requirements.txt.
+- pip install requirements.txt.
 
-python manage.py makemigrations 
+- python manage.py makemigrations 
 
-python manage.py migrate
+- python manage.py migrate
 
-And You can run this command to run your server.
+- And You can run this command to run your server.
 
-python manage.py runserver
+- python manage.py runserver
 
-Create superuser with python manage.py createsuperuser. This step is optional.
+- Create superuser with python manage.py createsuperuser. This step is optional.
 
 
 # Files and directories
